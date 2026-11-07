@@ -1,0 +1,38 @@
+name: Build Dr-Verce Echo for Mac
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyinstaller
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+
+      - name: Build Mac App
+        run: |
+          pyinstaller --windowed --name "Dr-Verce Echo" programa.py
+
+      - name: Zip App
+        run: |
+          cd dist
+          zip -r "Dr-Verce-Echo-Mac.zip" "Dr-Verce Echo.app"
+
+      - name: Upload App
+        uses: actions/upload-artifact@v4
+        with:
+          name: Dr-Verce-Echo-Mac
+          path: dist/Dr-Verce-Echo-Mac.zip
