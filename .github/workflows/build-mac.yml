@@ -24,7 +24,7 @@ jobs:
 
       - name: Build Mac App
         run: |
-          pyinstaller --windowed --name "Dr-Verce Echo" programa.py
+          pyinstaller --windowed --name "Dr-Verce Echo" treto.py
 
       - name: Zip App
         run: |
